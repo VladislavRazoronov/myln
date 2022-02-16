@@ -26,11 +26,13 @@ public:
     ~command_line_options_t() = default;
 
     [[nodiscard]] std::vector<std::string> get_filenames() const { return filenames; };
-    [[nodiscard]] bool get_A_flag() const { return A_flag; };
+    [[nodiscard]] bool get_S_link() const { return S_link; };
+    [[nodiscard]] bool get_H_link() const { return H_link; };
 
     void parse(int ac, char **av);
 private:
-    bool A_flag = false;
+    bool S_link = false;
+    bool H_link = false;
     std::vector<std::string> filenames;
 
     boost::program_options::variables_map var_map{};

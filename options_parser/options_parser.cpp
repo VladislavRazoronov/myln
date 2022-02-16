@@ -11,9 +11,11 @@ command_line_options_t::command_line_options_t() {
     opt_conf.add_options()
         ("help,h",
                 "Show help message")
-        ("A_flag,A",
-                "All invisible characters, except for whitespaces, "
-                "should be displayed as their hexadecimal codes")
+        ("symlink,soft",
+                "Create a symbolic link to given destination "
+                "i.e the link doesn't require destination to exist")
+        ("hardlink,hard",
+                "Create hard link to given destination ensuring that it exists")
         ;
 }
 
@@ -32,7 +34,8 @@ void command_line_options_t::parse(int ac, char **av) {
             std::cout << opt_conf << "\n";
             exit(EXIT_SUCCESS);
         }
-        A_flag = var_map.count("A_flag");
+        S_link = var_map.count("symlink");
+        H_link = var_map.count("hardlink");
         po::notify(var_map);
     } catch (std::exception &ex) {
         throw OptionsParseException(ex.what()); // Convert to our error type
