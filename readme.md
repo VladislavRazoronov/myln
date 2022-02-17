@@ -17,4 +17,8 @@ make
 ./my_ln -soft from.txt to
 ./my_ln --hardlink from.txt to
 ```
+### Results
+![example](example_result.png)
 
+### Additional tasks
+Added platform dependant compilation on Windows on linux with implementation based on WinAPI

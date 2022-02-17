@@ -1,7 +1,6 @@
 // This is a personal academic project. Dear PVS-Studio, please check it.
 // PVS-Studio Static Code Analyzer for C, C++, C#, and Java: http://www.viva64.com
 
-#include <filesystem>
 #include <iostream>
 #include "options_parser.h"
 
@@ -39,11 +38,5 @@ void command_line_options_t::parse(int ac, char **av) {
         po::notify(var_map);
     } catch (std::exception &ex) {
         throw OptionsParseException(ex.what()); // Convert to our error type
-    }
-}
-
-void assert_file_exist(const std::string &f_name) {
-    if (!std::filesystem::exists(f_name)) {
-        throw std::invalid_argument("File " + f_name + " not found!");
     }
 }

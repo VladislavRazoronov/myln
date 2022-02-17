@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include "options_parser.h"
-#include <filesystem>
+#include "winbase.h"
 
 int main(int argv, char* argc[]) {
     command_line_options_t command_line_options{argv, argc};
@@ -22,13 +22,14 @@ int main(int argv, char* argc[]) {
     }
     //Create link
     if(soft){
-        std::filesystem::create_symlink(filenames[0],filenames[1]);
+        CreateSymbolicLinkA(filenames[0].c_str(),filenames[1].c_str(),0);
     }
     if(hard){
-        if (!std::filesystem::exists(filenames[0])) {
+        DWORD dwAttrib = GetFileAttributesA(filenames[0].c_str())
+        if (dwAttrib == INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY)){
             throw std::invalid_argument("File " + filenames[0]+ " not found!");
         }
-        std::filesystem::create_hard_link(filenames[0],filenames[1]);
+        CreateHardLinkA(filenames[0].c_str(),filenames[1].c_str(),0);
     }
     return 0;
 
