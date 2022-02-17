@@ -20,13 +20,17 @@ int main(int argv, char* argc[]) {
         std::cerr<<"Invalid number of file paths, exactly 2 are required"<<std::endl;
         return -1;
     }
+    DWORD dwAttrib = GetFileAttributesA(filenames[1].c_str())
+    if (dwAttrib != INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY)){
+        throw std::invalid_argument("File " + filenames[1]+ " already exists!");
+    }
     //Create link
     if(soft){
         CreateSymbolicLinkA(filenames[0].c_str(),filenames[1].c_str(),0);
     }
     if(hard){
         DWORD dwAttrib = GetFileAttributesA(filenames[0].c_str())
-        if (dwAttrib == INVALID_FILE_ATTRIBUTES && !(dwAttrib & FILE_ATTRIBUTE_DIRECTORY)){
+        if (dwAttrib == INVALID_FILE_ATTRIBUTES && (dwAttrib & FILE_ATTRIBUTE_DIRECTORY)){
             throw std::invalid_argument("File " + filenames[0]+ " not found!");
         }
         CreateHardLinkA(filenames[0].c_str(),filenames[1].c_str(),0);

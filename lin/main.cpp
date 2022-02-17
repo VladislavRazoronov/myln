@@ -20,6 +20,9 @@ int main(int argv, char* argc[]) {
         std::cerr<<"Invalid number of file paths, exactly 2 are required"<<std::endl;
         return -1;
     }
+    if (std::filesystem::exists(filenames[1])) {
+        throw std::invalid_argument("File " + filenames[1]+ " already exists!");
+    }
     //Create link
     if(soft){
         std::filesystem::create_symlink(filenames[0],filenames[1]);
